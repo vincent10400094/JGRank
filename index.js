@@ -8,7 +8,7 @@ const PORT = 3000;
 const URL = 'https://judgegirl.csie.org/ranklist?page=';
 const mongoDB = 'mongodb://localhost/JGCrawler';
 
-const crawler = new Crawler();
+const crawler = new Crawler(URL);
 
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
@@ -32,20 +32,9 @@ app.use(async (ctx, next) => {
 
 // response
 app.use(async ctx => {
-	var page = 1;
-	var data = [];
-	while (crawler.success) {
-		// console.log(URL + page.toString());
-		data = data.concat(await crawler.fetchData(URL+page.toString()))
-		page ++;
-	}
-	console.log('fetch completed, pages:', page);;
 	ctx.body = data;
 	data.map((data, i) => {
 		var user = new User(data);
-		user.save((err) => {
-			if (err)	return handleError(err);
-		});
 		let query = { account: data.account };
 		// User.findOneAndUpdate(query, {}, (err, doc) => {
 		// 	if (err) {

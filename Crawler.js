@@ -5,7 +5,8 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 const fields = ['rank', 'account', 'class', 'AC', 'url'];
 
-function Crawler() {
+function Crawler(URL) {
+	this.URL = URL;
 	this.success = true;
 	this.fetchData = async function(URL) {
 		try {
@@ -38,6 +39,17 @@ function Crawler() {
 			console.log('fetch failed:', err);
 			this.success = false;
 		}
+	}
+	this.updateData = async function() {
+		var page = 1;
+		var data = [];
+		while (this.success) {
+			// console.log(URL + page.toString());
+			data = data.concat(await this.fetchData(URL+page.toString()))
+			page ++;
+		}
+		console.log('fetch completed, pages:', page);
+		return data;
 	}
 }
 
