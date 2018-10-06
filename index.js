@@ -1,22 +1,18 @@
-const Koa = require('koa');
-const app = new Koa();
-const Crawler = require('./Crawler.js');
-const User = require('./models/user.js');
-const mongoose = require('mongoose');
+'user strict';
 
-const PORT = 3000;
-const URL = 'https://judgegirl.csie.org/ranklist?page=';
-const mongoDB = 'mongodb://localhost/JGCrawler';
+const Koa = require('koa');
+const route = require('koa-route');
+
+const userController = require('./controllers/user');
+const setting = require('./setting.js');
+const DB = require('./db.js');
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
-const crawler = new Crawler(URL);
+const app = new Koa();
+DB.DBSetup();
 
-mongoose.connect(mongoDB);
-mongoose.Promise = global.Promise;
-
-const db = mongoose.connection;
-
+// on error
 app.on('error', (err) => {
 	console.error(err.stack);
 	console.log(err.message);
@@ -37,13 +33,8 @@ app.use(async (ctx, next) => {
  	ctx.set('X-Response-Time', `${ms}ms`);
 });
 
-// response
-app.use(async ctx => {
-	User.find({}, (err, doc) => {
-		if (err)	return handelError(err);
-		console.log(`found ${doc.length} users`);
-		return ctx.body = doc;
-	});
-});
+// routers
+app.use(route.get('/api/users', userController.getUsers));
+
 
 app.listen(PORT, () => {console.log(`Server started on ${PORT}`)});
