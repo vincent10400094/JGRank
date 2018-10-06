@@ -8,12 +8,19 @@ const PORT = 3000;
 const URL = 'https://judgegirl.csie.org/ranklist?page=';
 const mongoDB = 'mongodb://localhost/JGCrawler';
 
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
 const crawler = new Crawler(URL);
 
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
+
+app.on('error', (err) => {
+	console.error(err.stack);
+	console.log(err.message);
+});
 
 // logger
 app.use(async (ctx, next) => {
@@ -32,21 +39,11 @@ app.use(async (ctx, next) => {
 
 // response
 app.use(async ctx => {
-	ctx.body = data;
-	data.map((data, i) => {
-		var user = new User(data);
-		let query = { account: data.account };
-		// User.findOneAndUpdate(query, {}, (err, doc) => {
-		// 	if (err) {
-		// 		console.log(err);
-		// 	} else {
-		// 		console.log(`user #${i} updated successfully`);
-		// 	}
-		// });
-		// console.log(data.account);
-		// console.log(`user #${i}: ${data.account}`);
+	User.find({}, (err, doc) => {
+		if (err)	return handelError(err);
+		console.log(`found ${doc.length} users`);
+		return ctx.body = doc;
 	});
 });
 
-app.listen(PORT);
-console.log('listening on port:', PORT);
+app.listen(PORT, () => {console.log(`Server started on ${PORT}`)});

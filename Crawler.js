@@ -1,8 +1,6 @@
 const fetch 	= require('node-fetch');
 const cheerio 	= require('cheerio');
 
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
-
 const fields = ['rank', 'account', 'class', 'AC', 'url'];
 
 function Crawler(URL) {
