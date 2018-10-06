@@ -10,8 +10,4 @@ const userSchema = new mongoose.Schema({
 	url: 		String,
 });
 
-userSchema.statics.getUsers = function () {
-	return this.find();
-}
-
 module.exports = mongoose.model('User', userSchema);

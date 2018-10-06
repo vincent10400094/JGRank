@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const setting = require('./setting.js')
 
 module.exports = {
-	DBSetup: () => {
+	DBSetup: function() {
 		mongoose.connect(setting.DB);
 		mongoose.Promise = global.Promise;
 		// success connection message

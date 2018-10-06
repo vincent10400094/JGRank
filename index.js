@@ -35,9 +35,9 @@ app.use(async (ctx, next) => {
 
 // routers
 app.use(route.get('/api/users', userController.getUsers));
-app.use(route.get('/api/users/year/:year'), userController.getYear);
-app.use(route.get('/api/users/class/:class'), userController.getClass);
-app.use(route.post('/api/update'), userController.update);
+app.use(route.get('/api/users/year/:year', userController.getUsersByYear));
+app.use(route.get('/api/users/class/:class', userController.getUsersByClass));
+app.use(route.post('/api/update', userController.update));
 
 // console.log('setting:', setting);
 app.listen(setting.PORT, () => {console.log(`Server started on ${setting.PORT}`)});
