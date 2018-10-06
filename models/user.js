@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-	rank: 		Number,
+	rank: 		{ type: Number, index: true },
 	account: 	{ type: String, index: true },
 	class: 		String,
 	AC: 		Number,
