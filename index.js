@@ -36,5 +36,5 @@ app.use(async (ctx, next) => {
 // routers
 app.use(route.get('/api/users', userController.getUsers));
 
-
-app.listen(setting.PORT, () => {console.log(`Server started on ${PORT}`)});
+// console.log('setting:', setting);
+app.listen(setting.PORT, () => {console.log(`Server started on ${setting.PORT}`)});
