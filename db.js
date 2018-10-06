@@ -19,7 +19,7 @@ module.exports = {
 		mongoose.connection.on('disconnected', () => {
 			console.log('Mongoose disconnected');
 		});
-		// 
+		// close mongoose connection when app terminated
 		process.on('SIGINT', () => {
 			mongoose.connection.close(() => {
 				console.log('Mongoose connection closed through app termination');
