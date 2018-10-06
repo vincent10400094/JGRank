@@ -37,6 +37,7 @@ app.use(async (ctx, next) => {
 app.use(route.get('/api/users', userController.getUsers));
 app.use(route.get('/api/users/year/:year', userController.getUsersByYear));
 app.use(route.get('/api/users/class/:class', userController.getUsersByClass));
+app.use(route.get('/api/user/:account', userController.getUser));
 app.use(route.post('/api/update', userController.update));
 
 // console.log('setting:', setting);

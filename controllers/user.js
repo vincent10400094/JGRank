@@ -29,6 +29,11 @@ exports.getUsersByClass = async function (ctx, cla) {
 	.select({ _id: false, __v: false });
 }
 
+exports.getUser = async function (ctx, account) {
+	ctx.body = await User.findOne({ account: account })
+	.select({ _id: false, __v: false });
+}
+
 exports.update = async function (ctx) {
 
 }
