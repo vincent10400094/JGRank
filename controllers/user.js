@@ -13,12 +13,17 @@ exports.getUsers = async function (ctx) {
 }
 
 exports.getUsersByYear = async function (ctx, year) {
-	console.log(`get user by year: ${year}`);
-	ctx.body = `get user by year: ${year}`;
+	let page = this.query.page || 1;
+	let limit = setting.limit;
+	let skip = (page - 1) * limit;
+	let re = new RegExp('^'+year);
+	console.log('re:', re);
+	ctx.body = await User.find({ account: { $regex: re } }).sort({ rank: 1 })
+	.skip(skip).limit(limit).select({ _id: false, __v: false });
 }
 
-exports.getUsersByClass = async function (ctx) {
-	ctx.body = 'get user by class';
+exports.getUsersByClass = async function (ctx, cla) {
+	ctx.body = `get user by class ${cla}`;
 }
 
 exports.update = async function (ctx) {
