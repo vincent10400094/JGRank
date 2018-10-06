@@ -27,7 +27,7 @@ function Crawler() {
 				user['url'] = $(elem).find('a').attr('href');
 				users.push(user);
 			});
-			console.log('users:', users.length);
+			// console.log('users:', users.length);
 			if (users.length == 0) {
 				this.success = false;
 				return users;
