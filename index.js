@@ -3,6 +3,7 @@
 const Koa = require('koa');
 const route = require('koa-route');
 const serve = require('koa-static');
+const send = require('koa-send')
 
 // controllers
 const userController = require('./controllers/user');
@@ -15,6 +16,7 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 // setup mongoDB
 DB.setup();
 
+// create app instance
 const app = new Koa();
 
 // on error
@@ -41,7 +43,7 @@ app.use(async (ctx, next) => {
 // static file serving middleware
 app.use(serve(__dirname + '/public'));
 
-// routers
+// api routers
 app.use(route.get('/api/users', userController.getUsers));
 app.use(route.get('/api/users/year/:year', userController.getUsersByYear));
 app.use(route.get('/api/users/class/:class', userController.getUsersByClass));
@@ -49,6 +51,11 @@ app.use(route.get('/api/user/:account', userController.getUser));
 app.use(route.get('/api/classes', userController.getClasses));
 app.use(route.get('/api/year', userController.getYear));
 app.use(route.get('/api/update', userController.update));
+
+// index page
+app.use(async (ctx) => {
+	await send(ctx, '/index.html');
+});
 
 // console.log('setting:', setting);
 app.listen(setting.PORT, () => {console.log(`Server started on ${setting.PORT}`)});
