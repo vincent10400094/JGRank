@@ -2,7 +2,7 @@
 
 const User = require('../models/user.js');
 const setting = require('../setting.js');
-const crawler = require('../crawler.js');
+const Crawler = require('../crawler.js');
 
 exports.getUsers = async function (ctx) {
 	let page = this.query.page || 1;
@@ -34,6 +34,34 @@ exports.getUser = async function (ctx, account) {
 	.select({ _id: false, __v: false });
 }
 
-exports.update = async function (ctx) {
+exports.getClasses = async function (ctx) {
+	ctx.body = await User.distinct("class");
+}
 
+exports.getYear = async function (ctx) {
+	ctx.body = await User.distinct("year");
+}
+
+exports.update = async function (ctx) {
+	console.log('updating user data...');
+	var crawler = new Crawler();
+	var page = 1;
+	var data = [];
+	var start = Date.now();
+	while (crawler.status) {
+		data = data.concat(await crawler.fetchData(setting.URL+page.toString()));
+		page ++;
+	}
+	var ms = Date.now() - start;
+	// console.log(data);
+	console.log(`fetch completed, pages: ${page-1}, users: ${data.length} - ${ms}ms`);
+	var updated = 0;
+	data.map(data => {
+		User.findOneAndUpdate({ account: data.account }, data, { upsert: true }, (err, doc) => {
+			// console.log(doc, data);
+			if (doc != data)	updated ++;
+		});
+	});
+	console.log(`user data update completed, ${updated} users's data has changed`);
+	ctx.body = (data.length !== 0);
 }

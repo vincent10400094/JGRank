@@ -3,14 +3,18 @@
 const Koa = require('koa');
 const route = require('koa-route');
 
+// controllers
 const userController = require('./controllers/user');
+
 const setting = require('./setting.js');
 const DB = require('./db.js');
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
+// setup mongoDB
+DB.setup();
+
 const app = new Koa();
-DB.DBSetup();
 
 // on error
 app.on('error', (err) => {
@@ -38,7 +42,9 @@ app.use(route.get('/api/users', userController.getUsers));
 app.use(route.get('/api/users/year/:year', userController.getUsersByYear));
 app.use(route.get('/api/users/class/:class', userController.getUsersByClass));
 app.use(route.get('/api/user/:account', userController.getUser));
-app.use(route.post('/api/update', userController.update));
+app.use(route.get('/api/classes', userController.getClasses));
+app.use(route.get('/api/year', userController.getYear));
+app.use(route.get('/api/update', userController.update));
 
 // console.log('setting:', setting);
 app.listen(setting.PORT, () => {console.log(`Server started on ${setting.PORT}`)});

@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
 	class: 		String,
 	AC: 		Number,
 	url: 		String,
+	year: 		{ type: String, default: "" }
 });
 
 module.exports = mongoose.model('User', userSchema);
