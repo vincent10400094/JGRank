@@ -59,7 +59,7 @@ exports.update = async function (ctx) {
 	data.map(data => {
 		User.findOneAndUpdate({ account: data.account }, data, { upsert: true }, (err, doc) => {
 			// console.log(doc, data);
-			if (doc != data)	updated ++;
+			if (doc.AC != data.AC)	updated ++;
 		});
 	});
 	console.log(`user data update completed, ${updated} users's data has changed`);
