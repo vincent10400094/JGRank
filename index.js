@@ -2,6 +2,7 @@
 
 const Koa = require('koa');
 const route = require('koa-route');
+const serve = require('koa-static');
 
 // controllers
 const userController = require('./controllers/user');
@@ -36,6 +37,9 @@ app.use(async (ctx, next) => {
 	const ms = Date.now() - start;
  	ctx.set('X-Response-Time', `${ms}ms`);
 });
+
+// static file serving middleware
+app.use(serve(__dirname + '/public'));
 
 // routers
 app.use(route.get('/api/users', userController.getUsers));
