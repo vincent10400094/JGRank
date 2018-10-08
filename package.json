@@ -1,0 +1,37 @@
+{
+  "name": "jgrank",
+  "version": "1.0.0",
+  "description": "offers customized judge girl online judge rank",
+  "main": "index.js",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "koa": "^2.5.3",
+    "koa-route": "^3.2.0",
+    "koa-send": "^5.0.0",
+    "koa-static": "^5.0.0",
+    "mongodb": "^3.1.6",
+    "mongoose": "^5.3.2",
+    "node-fetch": "^2.2.0",
+    "node-html-parser": "^1.1.10",
+    "request": "^2.88.0",
+    "semantic-ui": "^2.4.0",
+    "ssl-root-cas": "^1.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincent10400094/JGRank.git"
+  },
+  "keywords": [
+    "crawler"
+  ],
+  "author": "Vincent Lin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vincent10400094/JGRank/issues"
+  },
+  "homepage": "https://github.com/vincent10400094/JGRank#readme"
+}
